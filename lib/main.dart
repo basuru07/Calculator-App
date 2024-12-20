@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -20,21 +19,22 @@ class Calculator extends StatefulWidget {
   const Calculator({super.key});
 
   @override
-  _CalculatorState createState() => _CalculatorState();  // Fixed the syntax here
+  _CalculatorState createState() => _CalculatorState(); // Fixed the syntax here
 }
 
 class _CalculatorState extends State<Calculator> {
-  String userInput = '';  // store the user input as a string
+  String userInput = ''; // store the user input as a string
   String result = '0'; // store the calculated result
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-// funtion of the button
+  // Function of the button
   Widget calcbutton(String btntxt, Color btncolor, Color txtcolor) {
     return Container(
       width: 80,
       height: 80,
       child: ElevatedButton(
         onPressed: () {
-          //Call the onbuttonPressed funtion with the button's text
+          // Call the onButtonPressed function with the button's text
           onButtonPressed(btntxt);
         },
         style: ElevatedButton.styleFrom(
@@ -79,9 +79,9 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  // funtion of the mathematical expression
-  void calculateResult (){
-    try{
+  // Function for mathematical expression
+  void calculateResult() {
+    try {
       // Use the math_expressions package for safe evaluation
       Parser parser = Parser();
 
@@ -103,11 +103,71 @@ class _CalculatorState extends State<Calculator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Assign the GlobalKey to the Scaffold
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Calculator'),
+        title: Text(''),
         backgroundColor: Colors.black,
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 360.0), // Add padding here
+            child: IconButton(
+              icon: Icon(
+                Icons.settings_outlined,
+                color: Colors.grey,
+                size: 30,
+              ),
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer(); // Opens the Drawer
+              },
+            ),
+          ),
+        ],
       ),
+      drawer: Drawer(
+        child: Container(
+          color: Colors.black,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Text(
+                  'Settings Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Profile'),
+                onTap: () {
+                  // Handle profile click
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.notifications),
+                title: Text('Notifications'),
+                onTap: () {
+                  // Handle notifications click
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {
+                  // Handle settings click
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Column(
@@ -117,7 +177,7 @@ class _CalculatorState extends State<Calculator> {
             Container(
               alignment: Alignment.centerRight,
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,  // Changed to horizontal for better number display
+                scrollDirection: Axis.horizontal, // Changed to horizontal for better number display
                 child: Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
@@ -157,8 +217,7 @@ class _CalculatorState extends State<Calculator> {
                 calcbutton('÷', Colors.amber[700]!, Colors.white),
               ],
             ),
-            SizedBox(height: 10),  // Added spacing at the bottom
-
+            SizedBox(height: 10), // Added spacing at the bottom
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -166,11 +225,9 @@ class _CalculatorState extends State<Calculator> {
                 calcbutton('8', Colors.grey[850]!, Colors.white),
                 calcbutton('9', Colors.grey[850]!, Colors.white),
                 calcbutton('x', Colors.amber[700]!, Colors.white),
-
               ],
             ),
             SizedBox(height: 10),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -178,11 +235,9 @@ class _CalculatorState extends State<Calculator> {
                 calcbutton('5', Colors.grey[850]!, Colors.white),
                 calcbutton('6', Colors.grey[850]!, Colors.white),
                 calcbutton('-', Colors.amber[700]!, Colors.white),
-
               ],
             ),
             SizedBox(height: 10),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -190,32 +245,31 @@ class _CalculatorState extends State<Calculator> {
                 calcbutton('2', Colors.grey[850]!, Colors.white),
                 calcbutton('3', Colors.grey[850]!, Colors.white),
                 calcbutton('+', Colors.amber[700]!, Colors.white),
-
               ],
             ),
             SizedBox(height: 10),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Design the '0' button
                 ElevatedButton(
                   onPressed: () {
-                    // button function
+                    onButtonPressed('0');
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.fromLTRB(34, 20, 128, 20),
                     shape: const StadiumBorder(),
                     backgroundColor: Colors.grey[850], // Button background color
                   ),
-                  child: const Text("0",
-                    style: TextStyle(fontSize: 35, color: Colors.white, // Text color
+                  child: const Text(
+                    "0",
+                    style: TextStyle(
+                      fontSize: 35,
+                      color: Colors.white, // Text color
                     ),
                   ),
                 ),
                 calcbutton('.', Colors.grey[850]!, Colors.white),
-                calcbutton('=' , Colors.amber[700]!, Colors.white),
-
+                calcbutton('=', Colors.amber[700]!, Colors.white),
               ],
             ),
             SizedBox(height: 10),
@@ -224,6 +278,4 @@ class _CalculatorState extends State<Calculator> {
       ),
     );
   }
-  //calculator logic
-
 }
