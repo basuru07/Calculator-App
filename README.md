@@ -19,7 +19,6 @@ A sleek, functional, and modern calculator app built with Flutter. This project 
 1. **Clone the Repository:**
    ```bash
    https://github.com/basuru07/Calculator-App.git
-   cd flutter-calculator
    ```
 
 2. **Install Dependencies:**
