@@ -25,6 +25,7 @@ class Calculator extends StatefulWidget {
 class _CalculatorState extends State<Calculator> {
   String userInput = ''; // store the user input as a string
   String result = '0'; // store the calculated result
+  List<String> history = []; // To store the history of calculations
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Function of the button
@@ -57,23 +58,22 @@ class _CalculatorState extends State<Calculator> {
   void onButtonPressed(String btntxt) {
     setState(() {
       if (btntxt == 'AC') {
-        // Clear the input and reset the result
         userInput = '';
         result = '0';
       } else if (btntxt == '=') {
-        // Evaluate the expression and display the result
         calculateResult();
+        if (result != 'Error') {
+          history.insert(0, '$userInput = $result'); // Add to history
+        }
       } else if (btntxt == '+/-') {
-        // Toggle between positive and negative numbers
         if (userInput.isNotEmpty) {
           if (userInput.startsWith('-')) {
-            userInput = userInput.substring(1); // Remove the negative sign
+            userInput = userInput.substring(1);
           } else {
-            userInput = '-$userInput'; // Add a negative sign
+            userInput = '-$userInput';
           }
         }
       } else {
-        // Append the pressed button's text to the input
         userInput += btntxt;
       }
     });
@@ -86,7 +86,7 @@ class _CalculatorState extends State<Calculator> {
       Parser parser = Parser();
 
       // Replace 'X' with '*' and '÷' with '/' for proper calculation
-      Expression exp = parser.parse(userInput.replaceAll('X', '*').replaceAll('÷', '/'));
+      Expression exp = parser.parse(userInput.replaceAll('x', '*').replaceAll('÷', '/'));
       ContextModel cm = ContextModel();
 
       // Evaluate the expression
@@ -113,7 +113,7 @@ class _CalculatorState extends State<Calculator> {
             padding: EdgeInsets.only(right: 360.0), // Add padding here
             child: IconButton(
               icon: Icon(
-                Icons.settings_outlined,
+                Icons.history_outlined,
                 color: Colors.grey,
                 size: 30,
               ),
@@ -129,45 +129,31 @@ class _CalculatorState extends State<Calculator> {
           color: Colors.black,
           child: ListView(
             padding: EdgeInsets.zero,
-            children: <Widget>[
+            children: [
               DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
+                decoration: BoxDecoration(color: Colors.black),
                 child: Text(
-                  'Settings Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                  'History',
+                  style: TextStyle(color: Colors.white, fontSize: 24,),
+                ),
+              ),
+              ...history.map((entry) => ListTile(
+                title: Text(
+                  entry,
+                  style: TextStyle(color: Colors.white),
+                ),
+              )),
+              if (history.isEmpty)
+                ListTile(
+                  title: Text(
+                    'No history yet',
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
-              ),
-              ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Profile'),
-                onTap: () {
-                  // Handle profile click
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.notifications),
-                title: Text('Notifications'),
-                onTap: () {
-                  // Handle notifications click
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
-                onTap: () {
-                  // Handle settings click
-                },
-              ),
             ],
           ),
         ),
       ),
-
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Column(
