@@ -11,8 +11,11 @@ A sleek, functional, and modern calculator app built with Flutter. This project 
 - **Error Handling:** Displays "Error" for invalid mathematical expressions to prevent app crashes.
 
 ## Screenshots
+![Screenshot 2024-12-21 153128](https://github.com/user-attachments/assets/0aa475fc-1931-4864-8cfb-f23b5780bcf5)
+![Screenshot 2024-12-21 153146](https://github.com/user-attachments/assets/268b39f3-03fb-43c1-9254-468e9c34d122)
+![Screenshot 2024-12-21 153204](https://github.com/user-attachments/assets/02d0896d-1e63-4fd6-ab1d-103477c9e1b7)
+![Screenshot 2024-12-21 153604](https://github.com/user-attachments/assets/32e27163-9e36-4b47-9a02-b2009820fdae)
 
-*Coming soon: Screenshots of the app in action!*
 
 ## Installation
 
